@@ -21,6 +21,10 @@ release:
 		$(shell git rev-parse --abbrev-ref HEAD) $(VERSION)
 	glu hubtag gliderlabs/$(NAME) $(VERSION)
 
+lazy-update:
+	docker build -t blaines/registrator:latest .
+	docker push blaines/registrator:latest
+
 docs:
 	boot2docker ssh "sync; sudo sh -c 'echo 3 > /proc/sys/vm/drop_caches'" || true
 	docker run --rm -it -p 8000:8000 -v $(PWD):/work gliderlabs/pagebuilder mkdocs serve
